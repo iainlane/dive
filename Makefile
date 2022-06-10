@@ -16,10 +16,14 @@ ci-static-analysis:
 	grep -R 'const allowTestDataCapture = false' runtime/ui/viewmodel
 	go vet ./...
 	@! gofmt -s -l . 2>&1 | grep -vE '^\.git/' | grep -vE '^\.cache/'
-	[ -z "${CI}" ] && golangci-lint run
+	if [ -z "${CI}" ]; then \
+		golangci-lint run; \
+	fi
 
 ci-install-go-tools:
-	[ -z "${CI}" ] && curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin latest
+	if [ -z "${CI}" ]; then \
+		curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin latest; \
+	fi
 
 ci-install-ci-tools:
 	go install github.com/goreleaser/goreleaser@v1.9.2
