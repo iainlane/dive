@@ -49,7 +49,6 @@ jobs:
       - name: Install tooling
         run: |
           make ci-install-go-tools
-          make ci-install-ci-tools
 
       - name: golangci-lint
         uses: golangci/golangci-lint-action@v3
@@ -72,7 +71,13 @@ jobs:
         run: make ci-static-analysis
 
       - name: Build snapshot artifacts
-        run: make ci-build-snapshot-packages
+        uses: goreleaser/goreleaser-action@v3
+        with:
+          distribution: goreleaser
+          version: latest
+          args: --snapshot --skip-publish --rm-dist
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - run: docker images iainlane/dive
 
@@ -164,9 +169,6 @@ jobs:
         with:
           platforms: all
 
-      - name: Install tooling
-        run: make ci-install-ci-tools
-
       - name: Cache go dependencies
         id: release-cache-go-dependencies
         uses: actions/cache@v1
@@ -186,7 +188,11 @@ jobs:
           DOCKER_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
 
       - name: Publish GitHub release
-        run: make ci-release
+        uses: goreleaser/goreleaser-action@v3
+        with:
+          distribution: goreleaser
+          version: latest
+          args: release --rm-dist
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

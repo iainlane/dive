@@ -25,9 +25,6 @@ ci-install-go-tools:
 		curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin latest; \
 	fi
 
-ci-install-ci-tools:
-	go install github.com/goreleaser/goreleaser@v1.9.2
-
 ci-docker-login:
 	echo '${DOCKERHUB_PASSWORD}' | docker login -u '${DOCKERHUB_USERNAME}' --password-stdin '${PRODUCTION_REGISTRY}'
 
@@ -36,15 +33,6 @@ ci-docker-logout:
 
 ci-publish-release:
 	goreleaser --rm-dist
-
-ci-build-snapshot-packages:
-	goreleaser \
-		--snapshot \
-		--skip-publish \
-		--rm-dist
-
-ci-release:
-	goreleaser release --rm-dist
 
 # todo: add --pull=never when supported by host box
 ci-test-production-image:
