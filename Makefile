@@ -40,7 +40,7 @@ ci-test-production-image:
 		--rm \
 		-t \
 		-v //var/run/docker.sock://var/run/docker.sock \
-		'${PRODUCTION_REGISTRY}/iainlane/dive:latest' \
+		'${PRODUCTION_REGISTRY}/iainlane/dive:${VERSION}' \
 			'${TEST_IMAGE}' \
 			--ci
 

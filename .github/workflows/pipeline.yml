@@ -83,6 +83,7 @@ jobs:
         run: make ci-static-analysis
 
       - name: Build snapshot artifacts
+        id: build
         uses: goreleaser/goreleaser-action@v3
         with:
           distribution: goreleaser
@@ -96,6 +97,8 @@ jobs:
       # todo: compare against known json output in shared volume
       - name: Test production image
         run: make ci-test-production-image
+        env:
+          VERSION: ${{ steps.build.outputs.version }}-amd64
 
       - uses: actions/upload-artifact@master
         with:
