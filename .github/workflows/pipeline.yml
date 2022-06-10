@@ -51,6 +51,9 @@ jobs:
           make ci-install-go-tools
           make ci-install-ci-tools
 
+      - name: golangci-lint
+        uses: golangci/golangci-lint-action@v3
+
       - name: Cache go dependencies
         id: package-cache-go-dependencies
         uses: actions/cache@v1
@@ -61,7 +64,9 @@ jobs:
 
       - name: Install dependencies
         if: steps.package-cache-go-dependencies.outputs.cache-hit != 'true'
-        run: go get ./...
+        run:
+          - GOARCH=amd64 go get ./...
+          - GOARCH=arm64 go get ./...
 
       - name: Linting, formatting, and other static code analyses
         run: make ci-static-analysis

@@ -16,13 +16,9 @@ ci-static-analysis:
 	grep -R 'const allowTestDataCapture = false' runtime/ui/viewmodel
 	go vet ./...
 	@! gofmt -s -l . 2>&1 | grep -vE '^\.git/' | grep -vE '^\.cache/'
-	golangci-lint run
-
-ci-install-go-tools:
-	curl -sfL https://install.goreleaser.com/github.com/golangci/golangci-lint.sh | sudo sh -s -- -b /usr/local/bin/ latest
 
 ci-install-ci-tools:
-	curl -sfL https://install.goreleaser.com/github.com/goreleaser/goreleaser.sh | sudo sh -s -- -b /usr/local/bin/ "v0.122.0"
+	go install github.com/goreleaser/goreleaser@v1.9.2
 
 ci-docker-login:
 	echo '${DOCKERHUB_PASSWORD}' | docker login -u '${DOCKERHUB_USERNAME}' --password-stdin '${PRODUCTION_REGISTRY}'
