@@ -98,7 +98,7 @@ jobs:
       - name: Test production image
         run: make ci-test-production-image
         env:
-          VERSION: ${{ steps.build.outputs.version }}-amd64
+          VERSION: ${{ fromJSON(steps.build.outputs.metadata).version }}-amd64
 
       - uses: actions/upload-artifact@master
         with:
@@ -216,3 +216,5 @@ jobs:
 
       - name: Smoke test published image
         run: make ci-test-production-image
+        env:
+          VERSION: ${{ fromJSON(steps.build.outputs.metadata).version }}-amd64
