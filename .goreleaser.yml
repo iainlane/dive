@@ -49,6 +49,7 @@ dockers:
     build_flag_templates:
       - "--platform=linux/amd64"
       - "--build-arg=DOCKER_CLI_VERSION={{.Env.DOCKER_CLI_VERSION}}"
+      - "--build-arg=TARGETARCH=x86_64"
   - image_templates:
         - iainlane/dive:{{ .Version }}-arm64v8
     goarch: arm64
@@ -56,6 +57,7 @@ dockers:
     build_flag_templates:
       - "--platform=linux/arm64/v8"
       - "--build-arg=DOCKER_CLI_VERSION={{.Env.DOCKER_CLI_VERSION}}"
+      - "--build-arg=TARGETARCH=aarch64"
 
 docker_manifests:
   - name_template: "iainlane/dive:{{ .Tag }}"
