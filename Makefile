@@ -26,7 +26,7 @@ ci-install-go-tools:
 	fi
 
 ci-docker-login:
-	echo '${DOCKERHUB_PASSWORD}' | docker login -u '${DOCKERHUB_USERNAME}' --password-stdin '${PRODUCTION_REGISTRY}'
+	echo '${DOCKER_PASSWORD}' | docker login -u '${DOCKER_USERNAME}' --password-stdin '${PRODUCTION_REGISTRY}'
 
 ci-docker-logout:
 	docker logout '${PRODUCTION_REGISTRY}'
