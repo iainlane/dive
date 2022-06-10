@@ -6,11 +6,21 @@ builds:
     env:
       - CGO_ENABLED=0
     goos:
+      - windows
+      - darwin
       - linux
     goarch:
       - amd64
       - arm64
     ldflags: -s -w -X main.version={{.Version}} -X main.commit={{.Commit}} -X main.buildTime={{.Date}}`.
+
+brews:
+  - github:
+      owner: wagoodman
+      name: homebrew-dive
+    homepage: "https://github.com/wagoodman/dive/"
+    description: "A tool for exploring each layer in a docker image"
+    skip_upload: true
 
 archives:
   - format: tar.gz
