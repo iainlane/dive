@@ -57,7 +57,7 @@ ci-test-deb-package-install:
 					tar -vxzf - docker/docker --strip-component=1 && \
 					mv docker /usr/local/bin/ &&\
 				docker version && \
-				apt install ./dist/dive_*_linux_*.deb -y && \
+				apt install ./dist/dive_*_linux_amd64.deb -y && \
 				dive --version && \
 				dive '${TEST_IMAGE}' --ci \
 			"
@@ -73,7 +73,7 @@ ci-test-rpm-package-install:
 					tar -vxzf - docker/docker --strip-component=1 && \
 					mv docker /usr/local/bin/ &&\
 				docker version && \
-				dnf install ./dist/dive_*_linux_*.rpm -y && \
+				dnf install ./dist/dive_*_linux_amd64.rpm -y && \
 				dive --version && \
 				dive '${TEST_IMAGE}' --ci \
 			"
