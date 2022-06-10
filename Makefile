@@ -79,18 +79,19 @@ ci-test-rpm-package-install:
 			"
 
 ci-test-linux-run:
-	chmod 755 ./dist/dive_linux_amd64/dive && \
-	./dist/dive_linux_amd64/dive '${TEST_IMAGE}'  --ci && \
-    ./dist/dive_linux_amd64/dive --source docker-archive .data/test-kaniko-image.tar  --ci --ci-config .data/.dive-ci
+	ls -laR ./dist/
+	chmod 755 ./dist/dive_linux_amd64*/dive && \
+	./dist/dive_linux_amd64*/dive '${TEST_IMAGE}'  --ci && \
+    ./dist/dive_linux_amd64*/dive --source docker-archive .data/test-kaniko-image.tar  --ci --ci-config .data/.dive-ci
 
 # we're not attempting to test docker, just our ability to run on these systems. This avoids setting up docker in CI.
 ci-test-mac-run:
-	chmod 755 ./dist/dive_darwin_amd64/dive && \
-	./dist/dive_darwin_amd64/dive .data/test-docker-image.tar  --source docker-archive --ci --ci-config .data/.dive-ci
+	chmod 755 ./dist/dive_darwin_amd64*/dive && \
+	./dist/dive_darwin_amd64*/dive .data/test-docker-image.tar  --source docker-archive --ci --ci-config .data/.dive-ci
 
 # we're not attempting to test docker, just our ability to run on these systems. This avoids setting up docker in CI.
 ci-test-windows-run:
-	./dist/dive_windows_amd64/dive --source docker-archive .data/test-docker-image.tar  --ci --ci-config .data/.dive-ci
+	./dist/dive_windows_amd64*/dive --source docker-archive .data/test-docker-image.tar  --ci --ci-config .data/.dive-ci
 
 
 

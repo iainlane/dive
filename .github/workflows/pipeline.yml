@@ -75,9 +75,7 @@ jobs:
 
       - name: Install dependencies
         if: steps.package-cache-go-dependencies.outputs.cache-hit != 'true'
-        run: |
-          GOARCH=amd64 go get ./...
-          GOARCH=arm64 go get ./...
+        run: go get ./...
 
       - name: Linting, formatting, and other static code analyses
         run: make ci-static-analysis
