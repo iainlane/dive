@@ -6,19 +6,11 @@ builds:
     env:
       - CGO_ENABLED=0
     goos:
-      - windows
-      - darwin
       - linux
     goarch:
       - amd64
+      - arm64
     ldflags: -s -w -X main.version={{.Version}} -X main.commit={{.Commit}} -X main.buildTime={{.Date}}`.
-
-brews:
-  - github:
-      owner: wagoodman
-      name: homebrew-dive
-    homepage: "https://github.com/wagoodman/dive/"
-    description: "A tool for exploring each layer in a docker image"
 
 archives:
   - format: tar.gz
@@ -36,15 +28,36 @@ nfpms:
       - deb
 
 dockers:
-  -
-    binaries:
-      - dive
-    dockerfile: Dockerfile
-    # todo: on 1.0 remove 'v' prefix
-    image_templates:
-      - "wagoodman/dive:latest"
-      - "wagoodman/dive:{{ .Tag }}"
-      - "wagoodman/dive:v{{ .Major }}"
-      - "wagoodman/dive:v{{ .Major }}.{{ .Minor }}"
+  - image_templates:
+        - iainlane/dive:{{ .Version }}-amd64
+    goarch: amd64
+    use: docker
     build_flag_templates:
+      - "--platform=linux/amd64"
       - "--build-arg=DOCKER_CLI_VERSION={{.Env.DOCKER_CLI_VERSION}}"
+  - image_templates:
+        - iainlane/dive:{{ .Version }}-arm64v8
+    goarch: arm64
+    use: docker
+    build_flag_templates:
+      - "--platform=linux/arm64/v8"
+      - "--build-arg=DOCKER_CLI_VERSION={{.Env.DOCKER_CLI_VERSION}}"
+
+docker_manifests:
+  - name_template: "iainlane/dive:{{ .Tag }}"
+    image_templates:
+      - iainlane/dive:{{ .Version }}-amd64
+      - iainlane/dive:{{ .Version }}-arm64v8
+    use: docker
+  - name_template: "iainlane/dive:v{{ .Major }}"
+    image_templates:
+      - iainlane/dive:{{ .Version }}-amd64
+      - iainlane/dive:{{ .Version }}-arm64v8
+    use: docker
+  - name_template: "iainlane/dive:v{{ .Major }}.{{ .Minor }}"
+    image_templates:
+      - iainlane/dive:{{ .Version }}-amd64
+      - iainlane/dive:{{ .Version }}-arm64v8
+    use: docker
+snapshot:
+  name_template: "{{ incpatch .Version }}-SNAPSHOT"
